@@ -33,7 +33,7 @@ export default function LoginScreen() {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
-      <Text style={styles.title}>Belum dikasih nama</Text>
+      <Text style={styles.title}>Login</Text>
       <Text style={styles.subtitle}>Masuk ke akun Anda</Text>
 
       <TextInput
@@ -64,9 +64,9 @@ export default function LoginScreen() {
         }
       </TouchableOpacity>
 
-      {/* <TouchableOpacity onPress={() => router.push('/(auth)/register')}> */}
-      {/*   <Text style={styles.link}>Belum punya akun? Daftar</Text> */}
-      {/* </TouchableOpacity> */}
+      <TouchableOpacity onPress={() => router.push('./register')}>
+        <Text style={styles.link}>Belum punya akun? Daftar</Text>
+      </TouchableOpacity>
     </KeyboardAvoidingView>
   );
 }
