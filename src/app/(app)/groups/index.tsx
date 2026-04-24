@@ -1,12 +1,17 @@
-import { useState, useEffect, useCallback } from 'react';
-import {
-  View, Text, FlatList, TouchableOpacity,
-  StyleSheet, RefreshControl, ActivityIndicator,
-} from 'react-native';
-import { useRouter } from 'expo-router';
-import { Group } from '@/src/types';
 import { useAuth } from '@/src/context/AuthContext';
 import { getMyGroups } from '@/src/services';
+import { Group } from '@/src/types';
+import { useRouter } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 export default function GroupsScreen() {
   const [groups, setGroups] = useState<Group[]>([]);

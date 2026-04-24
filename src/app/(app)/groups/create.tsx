@@ -1,10 +1,14 @@
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import {
-  View, Text, TextInput, TouchableOpacity,
-  StyleSheet, Alert, ScrollView, KeyboardAvoidingView,
-  Platform, ActivityIndicator,
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text, TextInput, TouchableOpacity
 } from 'react-native';
-import { useRouter } from 'expo-router';
 import { createGroup } from '../../../services';
 
 export default function CreateGroupScreen() {

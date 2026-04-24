@@ -1,9 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
-import {
-  View, Text, FlatList, TouchableOpacity,
-  StyleSheet, ActivityIndicator, RefreshControl,
-} from 'react-native';
 import { useRouter } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { getDashboard } from '../../services';
 import { Task, TaskStatus } from '../../types';
 

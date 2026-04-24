@@ -1,11 +1,17 @@
 import { Tabs } from 'expo-router';
+import { NavigationBar } from '../../components/NavigationBar';
 
 export default function AppLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: '#4F46E5', tabBarInactiveTintColor: '#9CA3AF' }}>
+    <Tabs 
+      tabBar={(props) => <NavigationBar {...props} />}
+      screenOptions={{ 
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="groups"
-        options={{ title: 'Grup', tabBarLabel: 'Grup', headerShown: false }}
+        options={{ title: 'Grup', tabBarLabel: 'Grup' }}
       />
       <Tabs.Screen
         name="dashboard"
