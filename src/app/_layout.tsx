@@ -1,5 +1,6 @@
-import { useEffect } from 'react';
 import { Slot, useRouter, useSegments } from 'expo-router';
+import { useEffect } from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 
 function RouteGuard() {
@@ -19,8 +20,10 @@ function RouteGuard() {
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <RouteGuard />
-    </AuthProvider>
+    <SafeAreaProvider>
+      <AuthProvider>
+        <RouteGuard />
+      </AuthProvider>
+    </SafeAreaProvider>
   );
 }
