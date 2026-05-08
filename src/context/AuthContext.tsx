@@ -7,7 +7,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  register: (name: string, email: string, password: string, passwordConfirmation: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -18,21 +18,51 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    AsyncStorage.getItem('user').then((raw) => {
-      if (raw) setUser(JSON.parse(raw) as User);
-      setLoading(false);
-    });
+    const loadStorage = async () => {
+      try {
+        const [userRaw, token] = await Promise.all([
+          AsyncStorage.getItem('user'),
+          AsyncStorage.getItem('token'),
+        ]);
+        
+        if (userRaw && token) {
+          setUser(JSON.parse(userRaw) as User);
+        } else {
+          // If either is missing, clear both to be safe
+          await AsyncStorage.multiRemove(['user', 'token']);
+        }
+      } catch (e) {
+        console.error('Failed to load auth state:', e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadStorage();
   }, []);
 
   const login = async (email: string, password: string) => {
-    const res = await loginService(email, password) as AuthResponse;
+    const res = await loginService(email, password);
+    console.log('Login success, user:', res.user.name);
+    
+    if (!res.token) {
+      throw new Error('Server tidak memberikan token akses');
+    }
+
     await AsyncStorage.setItem('token', res.token);
     await AsyncStorage.setItem('user', JSON.stringify(res.user));
     setUser(res.user);
   };
 
-  const register = async (name: string, email: string, password: string) => {
-    const res = await registerService(name, email, password) as AuthResponse;
+  const register = async (name: string, email: string, password: string, passwordConfirmation: string) => {
+    const res = await registerService(name, email, password, passwordConfirmation);
+    console.log('Register success, user:', res.user.name);
+
+    if (!res.token) {
+      // If backend doesn't return token, it's not a failure but requires manual login
+      console.warn('No token received on register');
+      throw new Error('Registrasi berhasil, silakan login manual');
+    }
+
     await AsyncStorage.setItem('token', res.token);
     await AsyncStorage.setItem('user', JSON.stringify(res.user));
     setUser(res.user);

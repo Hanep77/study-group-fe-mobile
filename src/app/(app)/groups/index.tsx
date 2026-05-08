@@ -21,10 +21,15 @@ export default function GroupsScreen() {
   const router = useRouter();
 
   const load = useCallback(async () => {
-    const data = await getMyGroups();
-    setGroups(data);
-    setLoading(false);
-    setRefreshing(false);
+    try {
+      const data = await getMyGroups();
+      setGroups(data);
+    } catch (error) {
+      console.error('Failed to load groups:', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, []);
 
   useEffect(() => { load(); }, [load]);

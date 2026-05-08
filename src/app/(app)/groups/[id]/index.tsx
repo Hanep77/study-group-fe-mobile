@@ -19,14 +19,19 @@ export default function GroupDetailScreen() {
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(async () => {
-    const [groupData, memberData] = await Promise.all([
-      getGroupDetail(groupId),
-      getMembers(groupId),
-    ]);
-    setGroup(groupData);
-    setMembers(memberData);
-    setLoading(false);
-    setRefreshing(false);
+    try {
+      const [groupData, memberData] = await Promise.all([
+        getGroupDetail(groupId),
+        getMembers(groupId),
+      ]);
+      setGroup(groupData);
+      setMembers(memberData);
+    } catch (error) {
+      console.error('Failed to load group detail:', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, [groupId]);
 
   useEffect(() => { load(); }, [load]);

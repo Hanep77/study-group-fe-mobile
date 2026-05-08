@@ -37,15 +37,20 @@ export default function TaskDetailScreen() {
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(async () => {
-    const [allTasks, items] = await Promise.all([
-      getTasks(groupId),
-      getChecklists(taskId),
-    ]);
-    const found = allTasks.find((t) => t.id === taskId) ?? null;
-    setTask(found);
-    setChecklists(items);
-    setLoading(false);
-    setRefreshing(false);
+    try {
+      const [allTasks, items] = await Promise.all([
+        getTasks(groupId),
+        getChecklists(taskId),
+      ]);
+      const found = allTasks.find((t) => t.id === taskId) ?? null;
+      setTask(found);
+      setChecklists(items);
+    } catch (error) {
+      console.error('Failed to load task details:', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, [groupId, taskId]);
 
   useEffect(() => { load(); }, [load]);

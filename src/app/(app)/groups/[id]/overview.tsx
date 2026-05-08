@@ -21,15 +21,20 @@ export default function OverviewScreen() {
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(async () => {
-    const [ov, grp] = await Promise.all([
-      getOverview(groupId),
-      getGroupDetail(groupId),
-    ]);
-    setOverview(ov);
-    setContent(ov?.content ?? '');
-    setGroup(grp);
-    setLoading(false);
-    setRefreshing(false);
+    try {
+      const [ov, grp] = await Promise.all([
+        getOverview(groupId),
+        getGroupDetail(groupId),
+      ]);
+      setOverview(ov);
+      setContent(ov?.content ?? '');
+      setGroup(grp);
+    } catch (error) {
+      console.error('Failed to load overview:', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, [groupId]);
 
   useEffect(() => { load(); }, [load]);

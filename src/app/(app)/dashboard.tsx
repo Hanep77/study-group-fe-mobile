@@ -29,10 +29,15 @@ export default function DashboardScreen() {
   const router = useRouter();
 
   const load = useCallback(async () => {
-    const data = await getDashboard();
-    setMyTasks(data.myTasks);
-    setLoading(false);
-    setRefreshing(false);
+    try {
+      const data = await getDashboard();
+      setMyTasks(data.myTasks);
+    } catch (error) {
+      console.error('Failed to load dashboard:', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, []);
 
   useEffect(() => { load(); }, [load]);

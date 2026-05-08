@@ -30,9 +30,12 @@ export default function RegisterScreen() {
     }
     setLoading(true);
     try {
-      await register(name, email, password);
-    } catch {
-      Alert.alert('Registrasi Gagal', 'Coba lagi');
+      console.log('Attempting register with:', { name, email });
+      await register(name, email, password, confirmPassword);
+    } catch (error: any) {
+      console.error('Registration error detail:', error);
+      const message = error.response?.data?.message || error.message || 'Coba lagi';
+      Alert.alert('Registrasi Gagal', message);
     } finally {
       setLoading(false);
     }

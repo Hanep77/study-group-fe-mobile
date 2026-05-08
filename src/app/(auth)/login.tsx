@@ -20,9 +20,12 @@ export default function LoginScreen() {
     }
     setLoading(true);
     try {
+      console.log('Attempting login with:', email);
       await login(email, password);
-    } catch {
-      Alert.alert('Login Gagal', 'Email atau password salah');
+    } catch (error: any) {
+      console.error('Login error detail:', error);
+      const message = error.response?.data?.message || error.message || 'Email atau password salah';
+      Alert.alert('Login Gagal', message);
     } finally {
       setLoading(false);
     }

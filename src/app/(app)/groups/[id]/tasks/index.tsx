@@ -27,10 +27,15 @@ export default function TaskListScreen() {
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(async () => {
-    const data = await getTasks(groupId);
-    setTasks(data);
-    setLoading(false);
-    setRefreshing(false);
+    try {
+      const data = await getTasks(groupId);
+      setTasks(data);
+    } catch (error) {
+      console.error('Failed to load tasks:', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, [groupId]);
 
   useEffect(() => { load(); }, [load]);

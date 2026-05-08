@@ -15,6 +15,12 @@ function RouteGuard() {
     if (user && inAuth) router.replace('/(app)/groups');
   }, [user, loading, router, segments]);
 
+  if (loading) return null;
+
+  const inAuth = segments[0] === '(auth)';
+  if (!user && !inAuth) return null;
+  if (user && inAuth) return null;
+
   return <Slot />;
 }
 

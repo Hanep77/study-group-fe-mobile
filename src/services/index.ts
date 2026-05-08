@@ -1,7 +1,7 @@
 import * as mock from './mockService';
 import * as real from './api';
 
-const USE_MOCK = true; // ← ganti false saat backend siap
+const USE_MOCK = false; // ← ganti false saat backend siap
 
 export const login = USE_MOCK ? mock.mockLogin : real.login;
 export const register = USE_MOCK ? mock.mockRegister : real.register;

@@ -53,6 +53,11 @@ export interface Dashboard {
   myTasks: Task[];
 }
 
+export interface ApiResponse<T> {
+  message?: string;
+  data: T;
+}
+
 export interface AuthResponse {
   token: string;
   user: User;
