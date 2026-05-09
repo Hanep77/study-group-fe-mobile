@@ -69,10 +69,18 @@ export default function GroupDetailScreen() {
 
       {/* Group Info */}
       <View style={styles.card}>
-        <Text style={styles.groupName}>{group.name}</Text>
+        <View style={styles.row}>
+          <Text style={styles.groupName}>{group.name}</Text>
+          <View style={styles.idBadge}>
+            <Text style={styles.idLabel}>Kode: {group.join_code}</Text>
+          </View>
+        </View>
         {group.description ? (
           <Text style={styles.desc}>{group.description}</Text>
         ) : null}
+        <View style={styles.inviteBox}>
+          <Text style={styles.inviteText}>Bagikan Kode ini untuk mengundang teman</Text>
+        </View>
         {group.deadline && (
           <View style={styles.deadlineRow}>
             <Text style={styles.deadlineLabel}>Deadline</Text>
@@ -140,8 +148,13 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9FAFB' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   card: { backgroundColor: '#fff', borderRadius: 14, padding: 16, marginBottom: 20, elevation: 1 },
-  groupName: { fontSize: 20, fontWeight: '700', color: '#111827', marginBottom: 8 },
+  row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 },
+  groupName: { fontSize: 20, fontWeight: '700', color: '#111827', flex: 1, marginRight: 8 },
+  idBadge: { backgroundColor: '#F3F4F6', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4 },
+  idLabel: { fontSize: 12, fontWeight: '700', color: '#4B5563' },
   desc: { fontSize: 14, color: '#6B7280', lineHeight: 22, marginBottom: 12 },
+  inviteBox: { backgroundColor: '#F0F9FF', padding: 8, borderRadius: 8, marginBottom: 12, borderWidth: 1, borderColor: '#BAE6FD' },
+  inviteText: { fontSize: 11, color: '#0369A1', textAlign: 'center', fontWeight: '500' },
   deadlineRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12, borderTopWidth: 1, borderTopColor: '#F3F4F6' },
   deadlineLabel: { fontSize: 13, color: '#6B7280' },
   deadlineValue: { fontSize: 13, fontWeight: '600', color: '#4F46E5' },

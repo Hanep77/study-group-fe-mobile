@@ -6,7 +6,7 @@ import {
 import { useLocalSearchParams, Stack, useRouter } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import {
-  getTasks, getChecklists, toggleChecklist,
+  getTaskDetail, getChecklists, toggleChecklist,
   addChecklist, deleteTask, updateTaskStatus,
 } from '../../../../../services';
 import { Task, ChecklistItem, TaskStatus } from '../../../../../types';
@@ -38,12 +38,11 @@ export default function TaskDetailScreen() {
 
   const load = useCallback(async () => {
     try {
-      const [allTasks, items] = await Promise.all([
-        getTasks(groupId),
+      const [taskData, items] = await Promise.all([
+        getTaskDetail(taskId),
         getChecklists(taskId),
       ]);
-      const found = allTasks.find((t) => t.id === taskId) ?? null;
-      setTask(found);
+      setTask(taskData);
       setChecklists(items);
     } catch (error) {
       console.error('Failed to load task details:', error);
@@ -51,7 +50,7 @@ export default function TaskDetailScreen() {
       setLoading(false);
       setRefreshing(false);
     }
-  }, [groupId, taskId]);
+  }, [taskId]);
 
   useEffect(() => { load(); }, [load]);
 

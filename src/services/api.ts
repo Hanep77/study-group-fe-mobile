@@ -19,13 +19,21 @@ const api = axios.create({
 
 api.interceptors.request.use(async (config) => {
   const token = await AsyncStorage.getItem('token');
+  console.log(`[API Request] ${config.method?.toUpperCase()} ${config.url}`, {
+    hasToken: !!token,
+    data: config.data,
+  });
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log(`[API Response] ${response.status} ${response.config.url}`);
+    return response;
+  },
   async (error) => {
+    console.error(`[API Error] ${error.response?.status || 'Network Error'} ${error.config?.url}`, error.response?.data);
     if (error.response?.status === 401) {
       console.log('Unauthorized detected, clearing session...');
       await AsyncStorage.multiRemove(['token', 'user']);
@@ -70,6 +78,11 @@ export const deleteGroup = async (id: string): Promise<void> => {
   await api.delete(`/groups/${id}`);
 };
 
+export const joinGroup = async (code: string): Promise<Group> => {
+  const res = await api.post<ApiResponse<Group>>('/groups/join', { code });
+  return res.data.data;
+};
+
 // MEMBERS
 export const getMembers = async (groupId: string): Promise<Member[]> => {
   const res = await api.get<Member[]>(`/groups/${groupId}/members`);
@@ -95,6 +108,11 @@ export const getTasks = async (groupId: string): Promise<Task[]> => {
 
 export const createTask = async (groupId: string, data: CreateTaskPayload): Promise<Task> => {
   const res = await api.post<ApiResponse<Task>>(`/groups/${groupId}/tasks`, data);
+  return res.data.data;
+};
+
+export const getTaskDetail = async (taskId: string): Promise<Task> => {
+  const res = await api.get<ApiResponse<Task>>(`/tasks/${taskId}`);
   return res.data.data;
 };
 

@@ -7,6 +7,7 @@ export interface User {
 export interface Group {
   id: string;
   name: string;
+  join_code: string;
   description: string;
   creator_id: string;
   deadline: string | null;

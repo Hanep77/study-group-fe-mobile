@@ -53,10 +53,18 @@ export default function GroupsScreen() {
           />
         }
         ListHeaderComponent={
-          <View style={styles.header}>
-            <Text style={styles.greeting}>Halo, {user?.name} 👋</Text>
-            <TouchableOpacity onPress={logout}>
-              <Text style={styles.logout}>Keluar</Text>
+          <View style={styles.headerContainer}>
+            <View style={styles.header}>
+              <Text style={styles.greeting}>Halo, {user?.name} 👋</Text>
+              <TouchableOpacity onPress={logout}>
+                <Text style={styles.logout}>Keluar</Text>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity 
+              style={styles.joinButton} 
+              onPress={() => router.push('/(app)/groups/join')}
+            >
+              <Text style={styles.joinButtonText}>+ Gabung Grup via ID</Text>
             </TouchableOpacity>
           </View>
         }
@@ -103,9 +111,12 @@ export default function GroupsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F9FAFB' },
   center: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  headerContainer: { marginBottom: 16 },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 },
   greeting: { fontSize: 20, fontWeight: '600', color: '#111827' },
   logout: { color: '#EF4444', fontSize: 14 },
+  joinButton: { backgroundColor: '#EEF2FF', borderRadius: 10, padding: 12, alignItems: 'center', borderWidth: 1, borderColor: '#C7D2FE' },
+  joinButtonText: { color: '#4F46E5', fontSize: 14, fontWeight: '600' },
   card: { backgroundColor: '#fff', borderRadius: 14, padding: 16, marginBottom: 12, elevation: 1 },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 },
   groupName: { fontSize: 15, fontWeight: '600', color: '#111827', flex: 1, marginRight: 8 },

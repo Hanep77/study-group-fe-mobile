@@ -64,6 +64,13 @@ export const mockDeleteGroup = async (groupId: string): Promise<void> => {
   groups = groups.filter((g) => g.id !== groupId);
 };
 
+export const mockJoinGroup = async (code: string): Promise<Group> => {
+  await delay(700);
+  const group = groups.find((g) => g.join_code === code || g.id === code);
+  if (!group) throw new Error('Grup tidak ditemukan');
+  return group;
+};
+
 // MEMBERS
 export const mockGetMembers = async (groupId: string): Promise<Member[]> => {
   await delay(300);
@@ -90,6 +97,15 @@ export const mockUpdateOverview = async (groupId: string, content: string): Prom
 export const mockGetTasks = async (groupId: string): Promise<Task[]> => {
   await delay(500);
   return tasks[groupId] ?? [];
+};
+
+export const mockGetTaskDetail = async (taskId: string): Promise<Task> => {
+  await delay(300);
+  for (const gid of Object.keys(tasks)) {
+    const found = tasks[gid].find((t) => t.id === taskId);
+    if (found) return found;
+  }
+  throw new Error('Task tidak ditemukan');
 };
 
 export const mockCreateTask = async (groupId: string, data: CreateTaskPayload): Promise<Task> => {
